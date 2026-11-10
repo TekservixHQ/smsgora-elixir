@@ -1,0 +1,23 @@
+# Publishes to hex.pm when a version tag (v1.2.3) is pushed, or by hand.
+# Needs the HEX_API_KEY secret (a hex.pm key with the api:write permission).
+name: publish
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          elixir-version: '1.18'
+          otp-version: '27'
+      - run: mix deps.get
+      - run: mix test
+      - run: mix hex.publish --yes
+        env:
+          HEX_API_KEY: ${{ secrets.HEX_API_KEY }}

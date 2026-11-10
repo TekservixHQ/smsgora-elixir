@@ -1,0 +1,45 @@
+name: tests
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - elixir: '1.15'
+            otp: '26'
+          - elixir: '1.18'
+            otp: '27'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+      - run: mix deps.get
+      - run: mix compile --warnings-as-errors
+      - run: mix test
+  format-and-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          elixir-version: '1.18'
+          otp-version: '27'
+      - run: mix deps.get
+      - name: Format (writes format.patch if anything changes)
+        run: |
+          mix format
+          git diff > format.patch
+          cat format.patch
+      - uses: actions/upload-artifact@v4
+        with:
+          name: format-patch
+          path: format.patch
+      - run: test ! -s format.patch
+      - run: MIX_ENV=dev mix docs
+      - run: mix hex.build
