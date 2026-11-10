@@ -265,7 +265,8 @@ defmodule SmsGora do
   defp iso8601(nil), do: nil
 
   defp iso8601(%DateTime{} = dt),
-    do: dt |> DateTime.shift_zone!("Etc/UTC") |> DateTime.truncate(:second) |> DateTime.to_iso8601()
+    do:
+      dt |> DateTime.shift_zone!("Etc/UTC") |> DateTime.truncate(:second) |> DateTime.to_iso8601()
 
   defp iso8601(value) when is_binary(value), do: value
 
