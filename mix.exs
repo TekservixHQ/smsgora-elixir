@@ -29,7 +29,6 @@ defmodule SmsGora.MixProject do
     [
       {:req, "~> 0.5"},
       {:plug, "~> 1.14", only: :test},
-      {:jason, "~> 1.4", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
