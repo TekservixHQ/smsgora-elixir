@@ -1,7 +1,7 @@
 defmodule SmsGora.MixProject do
   use Mix.Project
 
-  @version "1.0.0"
+  @version "1.0.1"
   @source_url "https://github.com/TekservixHQ/smsgora-elixir"
 
   def project do
@@ -13,7 +13,7 @@ defmodule SmsGora.MixProject do
       deps: deps(),
       name: "SmsGora",
       description:
-        "Elixir client for the SMS Gora SMS Gateway API: send and receive SMS through your own Android phones, with delivery reports and webhooks.",
+        "SMS Gora SMS Gateway: official Elixir client by Tekservix. Send and receive SMS through your own Android phones, with delivery reports and signed webhooks.",
       source_url: @source_url,
       homepage_url: "https://tekservix.com/smsgora/",
       package: package(),
